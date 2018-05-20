@@ -15,6 +15,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_weight="1"
+        android:onClick="onClick"
         android:text="@string/Search"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -52,8 +53,8 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:hint="출발역을 입력하세요"
-                android:inputType="textPersonName"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                />
 
         </LinearLayout>
 
@@ -78,8 +79,9 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:hint="도착역을 입력하세요"
-                android:inputType="textPersonName"
-                android:textSize="20sp" />
+                android:inputType="none"
+                android:textSize="20sp"
+                android:privateImeOptions="defaultInputmode=korean" />
 
         </LinearLayout>
 

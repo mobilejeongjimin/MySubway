@@ -11,7 +11,9 @@ public class PathFindActivity extends AppCompatActivity {
 
     private Button SearchButton;
     private EditText StartStationEdit;
+    private String StartStationTxt;
     private EditText DestiStationEdit;
+    private String DestiStationTxt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,14 +21,17 @@ public class PathFindActivity extends AppCompatActivity {
         setContentView(R.layout.activity_path_find);
 
         SearchButton = findViewById(R.id.SearchButton);
-        SearchButton.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            //fragment로 데이터 보내주기
-            }
-        });
-
         StartStationEdit = findViewById(R.id.StartStationText);
         DestiStationEdit = findViewById(R.id.DestiStationText);
+    }
+
+    public void onClick(View view){
+        StartStationTxt = String.valueOf(StartStationEdit.getText());
+        DestiStationTxt = String.valueOf(DestiStationEdit.getText());
+
+        Intent Pathfindcomputeintent = new Intent(this, PathFindComputeActivity.class);
+        Pathfindcomputeintent.putExtra("StartStation",StartStationTxt);
+        Pathfindcomputeintent.putExtra("DestiStation",DestiStationTxt);
+        startActivity(Pathfindcomputeintent);
     }
 }

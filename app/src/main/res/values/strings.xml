@@ -3,8 +3,15 @@
     <string name="PathFind">길찾기</string>
     <string name="SubwayMap">지하철 노선도 전체 지도 보기</string>
     <string name="Exit">종료</string>
-    <string name="StartStation">출발역</string>
-    <string name="DitsiStation">도착역</string>
+    <string name="StartStation">출발역: </string>
+    <string name="DitsiStation">도착역: </string>
     <string name="Search">경로 검색</string>
+    <string name="ShowDetail">자세히 보기</string>
+    <string name="ShowMap">지도로 보기</string>
+    <string name="FindOther">다른 경로 검색</string>
+    <string name="StationNumber">정차역</string>
+    <string name="TransferStationNumber">환승역</string>
+    <string name="TakeTime">소요시간</string>
+    <string name="StationViewDetail">정차역 자세히 보기</string>
 
 </resources>
