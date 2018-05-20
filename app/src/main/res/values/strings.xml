@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">MySubway</string>
+    <string name="PathFind">길찾기</string>
+    <string name="SubwayMap">지하철 노선도 전체 지도 보기</string>
+    <string name="Exit">종료</string>
+    <string name="StartStation">출발역</string>
+    <string name="DitsiStation">도착역</string>
+    <string name="Search">경로 검색</string>
+
 </resources>
