@@ -41,9 +41,7 @@ public class PathFindComputeActivity extends AppCompatActivity {
         FragmentPathFindButton = findViewById(R.id.view_pathfind);
         FragmentMapButton = findViewById(R.id.view_map);
 
-        Fragment fragment = new FragmentPathFind();
-        getFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
-
+        SelectFragment(FragmentPathFindButton);
     }
 
     public void onClick(View view) {
@@ -53,7 +51,6 @@ public class PathFindComputeActivity extends AppCompatActivity {
     public void onClickFinish(View view){
         finish();
     }
-
 
     public void SelectFragment(View view){
 
@@ -68,8 +65,14 @@ public class PathFindComputeActivity extends AppCompatActivity {
                 fragment = new FragmentMap();
                 break;
         }
+
+        Bundle bundle = new Bundle();
+        bundle.putString("FragStartStation",StartStation);
+        bundle.putString("FragDestiStation",DestiStation);
+        fragment.setArguments(bundle);
+
         getFragmentManager().popBackStack(null, getFragmentManager().POP_BACK_STACK_INCLUSIVE);
-        getFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
+        getFragmentManager().beginTransaction().add(R.id.fragment_container, fragment).addToBackStack(null).commit();
 
     }
 
