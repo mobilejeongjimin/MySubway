@@ -5,7 +5,9 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.support.v4.view.MotionEventCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
@@ -17,7 +19,11 @@ public class SubwayMapView extends View {
     private int mCanvasWidth = 1;
 
     private ScaleGestureDetector gestureDetector;
+
     private float Scale = 1.0f;
+
+    private float LastX, LastY;
+    private float MoveX, MoveY;
 
     public SubwayMapView(Context context) {
         super(context);
@@ -30,7 +36,6 @@ public class SubwayMapView extends View {
     }
 
     private void init(Context context) {
-
         gestureDetector = new ScaleGestureDetector(context, new ScaleListener());
         Resources res = context.getResources();
         SubwayMap = BitmapFactory.decodeResource(res,R.drawable.seoulsubwaymap);
@@ -42,15 +47,51 @@ public class SubwayMapView extends View {
         if(SubwayMap.getHeight() != mCanvasHeight || SubwayMap.getWidth() != mCanvasWidth){
             SubwayMap = SubwayMap.createScaledBitmap(SubwayMap,mCanvasWidth,mCanvasHeight,true);
         }
+
+        canvas.save();
         canvas.scale(Scale,Scale);
-        canvas.drawBitmap(SubwayMap,0,0,null);
+        canvas.drawBitmap(SubwayMap, 0 + MoveX, 0 + MoveY, null);
+        canvas.restore();
+
     }
 
     public boolean onTouchEvent(MotionEvent event){
         gestureDetector.onTouchEvent(event);
+
+        final int Action = MotionEventCompat.getActionMasked(event);
+
+        switch(Action){
+            case MotionEvent.ACTION_DOWN:{
+                final int pointerIndex = MotionEventCompat.getActionIndex(event);
+                final float x = MotionEventCompat.getX(event, pointerIndex);
+                final float y = MotionEventCompat.getY(event, pointerIndex);
+                LastX = x;
+                LastY = y;
+                break;
+            }
+            case MotionEvent.ACTION_MOVE: {
+                final int pointerIndex = MotionEventCompat.findPointerIndex(event,0);
+                final float x = MotionEventCompat.getX(event, pointerIndex);
+                final float y = MotionEventCompat.getY(event, pointerIndex);
+
+                // Calculate the distance moved
+                final float dx = x - LastX;
+                final float dy = y - LastY;
+
+                MoveX += dx / 2;
+                MoveY += dy / 2;
+
+                LastX = x;
+                LastY = y;
+
+            }
+
+        }
+
         invalidate();
         return true;
     }
+
 
     private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener{
 
