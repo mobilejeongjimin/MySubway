@@ -45,6 +45,7 @@ public class PathFindComputeActivity extends AppCompatActivity {
     }
 
     public void onClick(View view) {
+
         SelectFragment(view);
     }
 
@@ -73,7 +74,6 @@ public class PathFindComputeActivity extends AppCompatActivity {
 
         getFragmentManager().popBackStack(null, getFragmentManager().POP_BACK_STACK_INCLUSIVE);
         getFragmentManager().beginTransaction().add(R.id.fragment_container, fragment).addToBackStack(null).commit();
-
     }
 
 
