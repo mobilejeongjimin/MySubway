@@ -59,18 +59,12 @@ public class PathFindComputeActivity extends AppCompatActivity {
 
         textview = (TextView)findViewById(R.id.textView);
 
-        SelectFragment(FragmentPathFindButton);
-    }
-
-    public void onClick(View view) {
-
         new Thread(new Runnable() {
 
             @Override
             public void run() {
                 data = getDate();
                 runOnUiThread(new Runnable() {
-
                     @Override
                     public void run() {
                         textview.setText(data);
@@ -79,7 +73,12 @@ public class PathFindComputeActivity extends AppCompatActivity {
             }
         }).start();
 
-//        SelectFragment(view);
+        SelectFragment(FragmentPathFindButton);
+    }
+
+    public void onClick(View view) {
+
+        SelectFragment(view);
 
 
     }
