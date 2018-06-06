@@ -10,7 +10,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button PathfindButton;
     private Button SubwaymapButton;
-    private Button ExtiButton;
+    private Button ExitButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
         PathfindButton = findViewById(R.id.PathFindButton);
         SubwaymapButton = findViewById(R.id.SubwayMapButton);
-        ExtiButton = findViewById(R.id.ExitButton);
+        ExitButton = findViewById(R.id.ExitButton);
     }
 
     public void onClick(View view) {

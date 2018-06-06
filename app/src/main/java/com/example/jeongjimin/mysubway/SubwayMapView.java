@@ -44,15 +44,14 @@ public class SubwayMapView extends View {
     public void onDraw(Canvas canvas){
         mCanvasWidth = getWidth();
         mCanvasHeight = getHeight();
+
         if(SubwayMap.getHeight() != mCanvasHeight || SubwayMap.getWidth() != mCanvasWidth){
             SubwayMap = SubwayMap.createScaledBitmap(SubwayMap,mCanvasWidth,mCanvasHeight,true);
         }
-
         canvas.save();
         canvas.scale(Scale,Scale);
         canvas.drawBitmap(SubwayMap, 0 + MoveX, 0 + MoveY, null);
         canvas.restore();
-
     }
 
     public boolean onTouchEvent(MotionEvent event){
@@ -62,36 +61,42 @@ public class SubwayMapView extends View {
 
         switch(Action){
             case MotionEvent.ACTION_DOWN:{
-                final int pointerIndex = MotionEventCompat.getActionIndex(event);
-                final float x = MotionEventCompat.getX(event, pointerIndex);
-                final float y = MotionEventCompat.getY(event, pointerIndex);
+
+                final float x = event.getX();
+                final float y = event.getY();
+
                 LastX = x;
                 LastY = y;
+                Log.i("TEST", String.valueOf(x));
+                Log.i("TEST2", String.valueOf(y));
+
                 break;
             }
             case MotionEvent.ACTION_MOVE: {
-                final int pointerIndex = MotionEventCompat.findPointerIndex(event,0);
-                final float x = MotionEventCompat.getX(event, pointerIndex);
-                final float y = MotionEventCompat.getY(event, pointerIndex);
+                final float x = event.getX();
+                final float y = event.getY();
 
-                // Calculate the distance moved
                 final float dx = x - LastX;
                 final float dy = y - LastY;
 
-                MoveX += dx / 2;
-                MoveY += dy / 2;
+                MoveX += dx/2;
+                Log.i("TEST3", String.valueOf(MoveX));
+                if(MoveX >= 0){ MoveX = 0; }
+                if(MoveX <= -mCanvasWidth/2){ MoveX = -mCanvasWidth/2; }
+
+
+                MoveY += dy/2;
+                Log.i("TEST4", String.valueOf(MoveY));
+                if(MoveY >= 0){ MoveY = 0; }
+                if(MoveY <= -mCanvasHeight/2){ MoveY = -mCanvasHeight/2; }
 
                 LastX = x;
                 LastY = y;
-
             }
-
         }
-
         invalidate();
         return true;
     }
-
 
     private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener{
 
