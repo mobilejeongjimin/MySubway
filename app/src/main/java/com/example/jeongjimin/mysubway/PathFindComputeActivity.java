@@ -74,6 +74,8 @@ public class PathFindComputeActivity extends AppCompatActivity {
         }).start();
 
         SelectFragment(FragmentPathFindButton);
+
+
     }
 
     public void onClick(View view) {
@@ -251,4 +253,5 @@ public class PathFindComputeActivity extends AppCompatActivity {
 
 
 }
+
 

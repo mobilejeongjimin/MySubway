@@ -1,13 +1,17 @@
 package com.example.jeongjimin.mysubway;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +33,6 @@ public class PathFindActivity extends AppCompatActivity {
     SubwayCursorAdapter cursorAdapter;
 
     private Button SearchButton;
-    private Button DeleteButton;
     private EditText StartStationEdit;
     private String StartStationTxt;
     private EditText DestiStationEdit;
@@ -41,7 +44,6 @@ public class PathFindActivity extends AppCompatActivity {
         setContentView(R.layout.activity_path_find);
 
         SearchButton = findViewById(R.id.SearchButton);
-        DeleteButton = findViewById(R.id.DeleteButton);
         StartStationEdit = findViewById(R.id.StartStationText);
         DestiStationEdit = findViewById(R.id.DestiStationText);
 
@@ -52,6 +54,9 @@ public class PathFindActivity extends AppCompatActivity {
         cursorAdapter = new SubwayCursorAdapter(this, cursor);
         ListView list = findViewById(R.id.LIst);
         list.setAdapter(cursorAdapter);
+
+        list.setOnItemClickListener(onItemClickListener);
+        list.setOnItemLongClickListener(onitemLongClickListener);
 
     }
 
@@ -73,16 +78,52 @@ public class PathFindActivity extends AppCompatActivity {
 
     }
 
-    public void onDeletClick(View view){
-        StartStationTxt = String.valueOf(StartStationEdit.getText());
-        db.delete("StationHistory","StartStation=?",new String[]{StartStationTxt});
-    }
+    private AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-    public void UpdateClick(View view){
-        db.execSQL("UPDATE StationHistory set StartStation = " + StartStationTxt + " where destistation = '" + DestiStationTxt + "';");
-    }
+            StartStationTxt = cursor.getString(1);
+            Log.d("TAG",StartStationTxt);
+            DestiStationTxt = cursor.getString(2);
+            Log.d("TAG",DestiStationTxt);
+
+            StartStationEdit.setText(StartStationTxt);
+            DestiStationEdit.setText(DestiStationTxt);
+
+        }
+    };
+
+    private AdapterView.OnItemLongClickListener onitemLongClickListener = new AdapterView.OnItemLongClickListener(){
+        @Override
+        public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+            builder.setMessage("경로를 삭제 하시겠습니까?")
+            .setPositiveButton("삭제", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    db.delete("StationHistory","StartStation=?", new String[]{cursor.getString(1)});
+                    cursor = db.rawQuery("SELECT * FROM StationHistory",null);
+                    cursorAdapter.changeCursor(cursor);
+                    StartStationEdit.setText("");
+                    DestiStationEdit.setText("");
+                }
+            })
+            .setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+
+                }
+            });
+
+            builder.create();
+            builder.show();
+
+            return false;
+        }
+    };
 
 }
+
 
 class SubwayCursorAdapter extends CursorAdapter{
 
