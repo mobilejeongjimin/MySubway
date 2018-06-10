@@ -64,9 +64,7 @@ public class FragmentPathFind extends Fragment{
         for(int i = 0; i < SplitArray.length; i++){
             ArrStationNameGroup.add(SplitArray[i]);
         }
-
-//        String[] StrStationName = ArrStationNameGroup.toArray(new String[ArrStationNameGroup.size()]);
-
+        
         ArrayAdapter adapter = new ArrayAdapter(getActivity(),android.R.layout.simple_list_item_1,ArrStationNameGroup);
 
         StationList.setAdapter(adapter);
