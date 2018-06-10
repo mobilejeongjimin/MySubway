@@ -88,12 +88,13 @@
     </LinearLayout>
 
     <ListView
-        android:id="@+id/LIst"
+        android:id="@+id/StationLIst"
         android:layout_width="match_parent"
         android:layout_height="303dp"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/SearchButton"
+        app:layout_constraintVertical_bias="1.0"
         tools:layout_editor_absoluteX="0dp" />
 
 </android.support.constraint.ConstraintLayout>

@@ -3,6 +3,8 @@
     package="com.example.jeongjimin.mysubway">
     <uses-permission android:name = "andoid.permission.INTERNET"></uses-permission>
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -22,7 +24,8 @@
         <activity
             android:name=".SubwayMapActivity"
             android:screenOrientation="landscape" />
-        <activity android:name=".PathFindActivity" />
+        <activity android:name=".PathFindActivity"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".PathFindComputeActivity"></activity>
     </application>
 

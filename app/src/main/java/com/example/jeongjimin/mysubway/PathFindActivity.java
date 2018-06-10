@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -20,10 +19,8 @@ import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 
 public class PathFindActivity extends AppCompatActivity {
 
@@ -52,7 +49,7 @@ public class PathFindActivity extends AppCompatActivity {
 
         cursor = db.rawQuery("SELECT * FROM StationHistory",null);
         cursorAdapter = new SubwayCursorAdapter(this, cursor);
-        ListView list = findViewById(R.id.LIst);
+        ListView list = findViewById(R.id.StationLIst);
         list.setAdapter(cursorAdapter);
 
         list.setOnItemClickListener(onItemClickListener);
