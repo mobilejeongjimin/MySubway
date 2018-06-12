@@ -12,6 +12,11 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 
+
+/*지하철 노선도 view, pitch zoom과 drag & drop에 따른 화면 이동
+* 화면 이동부분에서 범위 설정이 약간 부족, 찾아봤을 땐 getX,Y가 화면의 상대좌표를 가져오는 거라고하는데 이것때문에 하면 움직일때마다 좌표가 바뀌는 문제...
+* 때문에 화면 이동 범위가 확대 비율에 따라 계속 바뀌는 현상이 있음(1배 일때 화면 이동의 범위와 8배일때 이동가능한 범위가 다름... / 부족한 부분)
+* Log 찍어가면서 어떻게든 범위 맞춰보려고 했는데 결국 못했습니다...*/
 public class SubwayMapView extends View {
 
     private Bitmap SubwayMap;

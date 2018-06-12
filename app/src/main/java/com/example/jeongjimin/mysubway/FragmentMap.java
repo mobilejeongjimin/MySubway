@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+/*Pathfind compute activity의 지도 fragment를 보여줌*/
+
 public class FragmentMap extends Fragment {
 
     @Override

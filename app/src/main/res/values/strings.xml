@@ -12,6 +12,6 @@
     <string name="StationNumber">정차역</string>
     <string name="TransferStationNumber">환승역</string>
     <string name="TakeTime">소요시간</string>
-    <string name="StationViewDetail">정차역 자세히 보기</string>
+    <string name="StationViewDetail">\t\t정차역 자세히 보기</string>
 
 </resources>

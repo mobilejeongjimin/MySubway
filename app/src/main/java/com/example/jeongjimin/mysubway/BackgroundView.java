@@ -9,6 +9,8 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
 
+/*메인화면의 배경화면을 보여줄 view*/
+
 public class BackgroundView extends View {
 
     private Drawable SubtitleImage;
@@ -17,8 +19,6 @@ public class BackgroundView extends View {
     private int mCanvasWidth = 1;
     private int x = 0;
     private int y = 0;
-
-
 
     public BackgroundView(Context context) {
         super(context);
@@ -39,7 +39,6 @@ public class BackgroundView extends View {
     public void onDraw(Canvas canvas){
 
         /*배경 이미지 bitmap 형식으로 캔버스에 넣기*/
-
         mCanvasHeight = getHeight();
         mCanvasWidth = getWidth();
         if(BackgroundImage.getWidth() != mCanvasWidth || BackgroundImage.getHeight() != mCanvasHeight){

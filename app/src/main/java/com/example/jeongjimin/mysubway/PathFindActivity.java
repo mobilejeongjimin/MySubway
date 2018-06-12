@@ -1,29 +1,24 @@
 package com.example.jeongjimin.mysubway;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 
-
+/*경로찾기의 시작이 될 액티비티, 이 액티비티는 edit text에서 시작, 도착역 정보를 받고 그 데이터를 compute로 넘겨주는 역할을 함.
+* 데이터를 compute로 넘김녀서 동시에 데이터베이스에 정보를 저장, 정보를 삭제하거나 저장된 정보를 바로 edit text에 올리는 역할도 수행*/
 public class PathFindActivity extends AppCompatActivity {
 
+    /*db생성과 사용에 필요한 것들*/
     DBHelper helper;
     SQLiteDatabase db;
     Cursor cursor;
@@ -33,7 +28,7 @@ public class PathFindActivity extends AppCompatActivity {
     private EditText StartStationEdit;
     private String StartStationTxt;
     private EditText DestiStationEdit;
-    private String DestiStationTxt = null;
+    private String DestiStationTxt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +52,10 @@ public class PathFindActivity extends AppCompatActivity {
 
     }
 
+    /*출발, 도착역 정보를 intent에 담아서 compute액티비티를 수행, 그와 동시에 데이터베이스에 두 정보를 저장함,
+    * 저장된 정보는 custom adapter(MysubwayCursorAdapter)을 통해서 listview로 보여줌.
+    *         cursorAdapter.changeCursor(cursor);
+    *         구문이 일종의 adapter의 notifydatachanged 같은 역할을 수행함.*/
     public void onClick(View view){
 
         StartStationTxt = String.valueOf(StartStationEdit.getText());
@@ -72,9 +71,9 @@ public class PathFindActivity extends AppCompatActivity {
         Pathfindcomputeintent.putExtra("StartStation",StartStationTxt);
         Pathfindcomputeintent.putExtra("DestiStation",DestiStationTxt);
         startActivity(Pathfindcomputeintent);
-
     }
 
+    /*짧게 클릭하면 데이터 베이스 안의 내용이 edit text에 올라감*/
     private AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -90,6 +89,7 @@ public class PathFindActivity extends AppCompatActivity {
         }
     };
 
+    /*롱클릭하면 대화상자로 이 내용을 삭제할 것인지 올라옴, 예 누르면 삭제, 아니면 종료*/
     private AdapterView.OnItemLongClickListener onitemLongClickListener = new AdapterView.OnItemLongClickListener(){
         @Override
         public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -122,50 +122,3 @@ public class PathFindActivity extends AppCompatActivity {
 }
 
 
-class SubwayCursorAdapter extends CursorAdapter{
-
-    public SubwayCursorAdapter(Context context, Cursor cursor){
-        super(context,cursor);
-    }
-
-    @Override
-    public void bindView(View view, Context context, Cursor cursor) {
-        TextView itemstart = view.findViewById(R.id.item_start);
-        TextView itemdesti = view.findViewById(R.id.item_desti);
-
-        String itemstartstation = cursor.getString(cursor.getColumnIndex("startstation"));
-        String itemdestistation = cursor.getString(cursor.getColumnIndex("destistation"));
-
-        itemstart.setText(itemstartstation);
-        itemdesti.setText(itemdestistation);
-    }
-
-    @Override
-    public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        LayoutInflater inflater = LayoutInflater.from(context);
-        View v = inflater.inflate(R.layout.list_item,parent,false);
-        return v;
-    }
-}
-
-
-class DBHelper extends SQLiteOpenHelper{
-
-    private static final String DATABASE_NAME = "MySubway.db";
-    private static final int DATABASE_VERSION = 1;
-
-    public DBHelper(Context context){
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
-    }
-
-    public void onCreate(SQLiteDatabase db){
-        db.execSQL("CREATE TABLE StationHistory(_id INTEGER PRIMARY KEY AUTOINCREMENT, startstation TXT, destistation TXT);");
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS StationHistory");
-        onCreate(db);
-    }
-
-}

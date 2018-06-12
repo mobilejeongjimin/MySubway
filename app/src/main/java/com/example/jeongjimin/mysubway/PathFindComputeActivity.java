@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -14,10 +13,9 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.net.URL;
-import java.net.URLEncoder;
 
-//PathFindActivity로부터 데이터를 전송 받고 최단거리를 계산하며 이를 화면으로 표현하는 기능 수행
-//fragment를 표현해서 2개 영역으로 구분
+/*PathFindActivity로부터 데이터를 전송 받고 그 데이터를 활용해 공공API에 접속해서 필요한 데이터들을 끌고 나온다.
+* 그 데이터를 다시 번들에 담아서 각 프래그먼트로 전송 한 뒤 화면에 출력함*/
 
 public class PathFindComputeActivity extends AppCompatActivity {
 
@@ -33,8 +31,6 @@ public class PathFindComputeActivity extends AppCompatActivity {
 
     private Button FragmentPathFindButton;
     private Button FragmentMapButton;
-
-    private TextView textview;
 
     private TextView StartStationTxt;
     private TextView DistiStationTxt;
@@ -55,14 +51,15 @@ public class PathFindComputeActivity extends AppCompatActivity {
         FragmentPathFindButton = findViewById(R.id.view_pathfind);
         FragmentMapButton = findViewById(R.id.view_map);
 
-        boolean inrow = false;
-        boolean inshtStatnNm = false, inshtStatnCnt = false, inshtTravelTm = false, inshtTransferCnt = false;
+        boolean inrow = false, inshtStatnNm = false, inshtStatnCnt = false, inshtTravelTm = false, inshtTransferCnt = false;
 
         String shtStatnNm = null, shtStatnCnt = null, shtTravelTm = null, shtTransferCnt = null;
 
+
+        /*공공API 접속해서 필요한 데이터 따오는 부분*/
         try{
 
-            URL url = new URL("http://swopenapi.seoul.go.kr/api/subway/72574f735463686f36344f666b6645" +
+            URL url = new URL("http://swopenapi.seoul.go.kr/api/subway/" + Key +
                     "/xml/shortestRoute/0/1/"+StartStation+"/"+DestiStation); //검색 URL부분
 
             XmlPullParserFactory parserCreator = XmlPullParserFactory.newInstance();
@@ -71,7 +68,6 @@ public class PathFindComputeActivity extends AppCompatActivity {
             parser.setInput(url.openStream(), null);
 
             int parserEvent = parser.getEventType();
-            System.out.println("파싱시작합니다.");
 
             while (parserEvent != XmlPullParser.END_DOCUMENT){
 
@@ -94,9 +90,6 @@ public class PathFindComputeActivity extends AppCompatActivity {
                             inshtTransferCnt = true;
                         }
 
-                        if(parser.getName().equals("message")){ //message 태그를 만나면 에러 출력
-
-                        }
                         break;
 
                     case XmlPullParser.TEXT://parser가 내용에 접근했을때
@@ -139,20 +132,24 @@ public class PathFindComputeActivity extends AppCompatActivity {
 
         }
 
+        /*맨 처음 프래그먼트를 하나 생성하고 시작*/
         SelectFragment(FragmentPathFindButton);
 
     }
 
+    /*프래그먼트 실행*/
     public void onClick(View view) {
 
         SelectFragment(view);
 
     }
 
+    /*종료*/
     public void onClickFinish(View view) {
         finish();
     }
 
+    /*온 클릭을 통해 받아온 해당 id의 프래그먼트의 실행 및 담아온 데이터를 프래그먼트에 보내줌*/
     public void SelectFragment(View view) {
 
         Fragment fragment = null;
